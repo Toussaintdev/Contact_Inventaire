@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 import sqlite3
 
 app = Flask(__name__)
@@ -14,7 +14,7 @@ def home():
         cur = conn.cursor()
         sql = "INSERT INTO info (contact, inventaire) VALUES (?, ?)"
         cur.execute(sql, insert)
-        conn.commit
+        conn.commit()
         cur.close()
         conn.close()
         return render_template('index.html')
@@ -30,7 +30,47 @@ def home():
         conn.close()
         return render_template('index.html')
     
-
+@app.route('/contacts')
+def contacts():
+    if 'type' in request.args:
+        type = request.args.get('type')
+        if type:
+            conn = sqlite3.connect('gestion_contact.db')
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM info")
+            reponses = cur.fetchall()
+            cur.close()
+            conn.close()
+            if len(reponses)>0:
+                if type == "api":
+                    return jsonify(reponses)
+                elif type == "all":
+                    titre = "Tous les contacts"
+                    return render_template('contacts.html', list_contact = reponses, titre = titre)
+                else:
+                    return "<p>Pas de résultat</p>"
+            else:
+                return "<p>Pas encore de contact</p>"
+        else:
+            return "<p>Pas de résultat</p>"
+    elif 'index' in request.args:
+        index = request.args.get('index')
+        if index:
+            conn = sqlite3.connect('gestion_contact.db')
+            cur = conn.cursor()
+            cur.execute(f"SELECT * FROM info wHERE ID = {index}")
+            reponses = cur.fetchall()
+            cur.close()
+            conn.close()
+            if len(reponses)>0:
+                titre = "Résultats de la recherche"
+                return render_template('contacts.html', list_contact = reponses, titre = titre)
+            else:
+                return "<p>Aucun résultat trouvé</p>"
+        else:
+            return "<p>Pas de résultat</p>"
+    else:
+        return redirect("/contacts?type=all")
 
 if __name__ == '__main__':
     app.run(debug=True)
