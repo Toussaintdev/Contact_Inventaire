@@ -18,11 +18,11 @@
 <form action="{{url_for('home')}}" method="post">
     <div class="form-group">
         <label for="contact" class="form-label">Contact</label>
-        <input type="tel" class="form-control" name="contact" id="contact" placeholder="00000000">
+        <input type="tel" class="form-control" name="contact" id="contact" placeholder="00000000" required>
     </div>
     <div class="form-group">
         <label for="inventaire" class="form-label">Inventaire</label>
-        <textarea name="inventaire" id="inventaire" class="form-control" rows="3"></textarea>
+        <textarea name="inventaire" id="inventaire" class="form-control" rows="3" required></textarea>
     </div>
     <input type="submit" value="Ajouter" class="btn btn-success">
 </form>
