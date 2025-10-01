@@ -15,7 +15,7 @@
 </nav>
 <div class="container contain">
     <h1>Ajouter un contact</h1>
-<form action="" method="post">
+<form action="{{url_for('home')}}" method="post">
     <div class="form-group">
         <label for="contact" class="form-label">Contact</label>
         <input type="tel" class="form-control" name="contact" id="contact" placeholder="00000000">
@@ -24,7 +24,7 @@
         <label for="inventaire" class="form-label">Inventaire</label>
         <textarea name="inventaire" id="inventaire" class="form-control" rows="3"></textarea>
     </div>
-    <input type="button" value="Ajouter" class="btn btn-success">
+    <input type="submit" value="Ajouter" class="btn btn-success">
 </form>
 </div>
 </body>
