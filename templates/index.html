@@ -4,8 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Application Contact et inventaire</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    
+    <nav class="navbar bg-body-tertiary">
+  <div class="container-fluid justify-content-center">
+    <span class="navbar-brand mb-0 h1">ContactEvent</span>
+  </div>
+</nav>
+<div class="container contain">
+    <h1>Ajouter un contact</h1>
+<form action="" method="post">
+    <div class="form-group">
+        <label for="contact" class="form-label">Contact</label>
+        <input type="tel" class="form-control" name="contact" id="contact" placeholder="00000000">
+    </div>
+    <div class="form-group">
+        <label for="inventaire" class="form-label">Inventaire</label>
+        <textarea name="inventaire" id="inventaire" class="form-control" rows="3"></textarea>
+    </div>
+    <input type="button" value="Ajouter" class="btn btn-success">
+</form>
+</div>
 </body>
 </html>
