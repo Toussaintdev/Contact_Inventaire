@@ -72,5 +72,23 @@ def contacts():
     else:
         return redirect("/contacts?type=all")
 
+@app.route('/contact/suppression')
+def suppression():
+    id = request.args.get('id')
+    # conn = sqlite3.connect('gestion_contact.db')
+    # cur = conn.cursor()
+    # cur.close()
+    # conn.close()
+    return "<p>Le script de suppression n'est pas encore établi</p>"
+
+@app.route('/contact/update')
+def update():
+    id = request.args.get('id')
+    # conn = sqlite3.connect('gestion_contact.db')
+    # cur = conn.cursor()
+    # cur.close()
+    # conn.close()
+    return "<p>Le script de mise à jour n'est pas encore établi</p>"
+
 if __name__ == '__main__':
     app.run(debug=True)
