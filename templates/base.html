@@ -20,17 +20,17 @@
           <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/contacts?type=all">Contacts</a>
+          <a class="nav-link" href="{{ url_for('contacts') }}">Contacts</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/contacts?type=api">API</a>
+          <a class="nav-link" href="{{ url_for('api_contacts') }}">API</a>
         </li>
         <li class="nav-item">
           <a class="nav-link disabled" aria-disabled="true">...</a>
         </li>
       </ul>
       <form class="d-flex" role="search" action="{{ url_for('contacts') }}" method="get">
-        <input class="form-control me-2" type="search" name="index" placeholder="Entrez un index pour rechercher un contact" aria-label="Search"/>
+        <input class="form-control me-2" type="search" name="id" placeholder="Entrez un index pour rechercher un contact" aria-label="Search"/>
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
     </div>

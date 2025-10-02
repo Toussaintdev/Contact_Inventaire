@@ -29,36 +29,15 @@ def home():
         cur.close()
         conn.close()
         return render_template('index.html')
-    
+
 @app.route('/contacts')
 def contacts():
-    if 'type' in request.args:
-        type = request.args.get('type')
-        if type:
+    if 'id' in request.args:
+        id = request.args.get('id')
+        if id:
             conn = sqlite3.connect('gestion_contact.db')
             cur = conn.cursor()
-            cur.execute("SELECT * FROM info")
-            reponses = cur.fetchall()
-            cur.close()
-            conn.close()
-            if len(reponses)>0:
-                if type == "api":
-                    return jsonify(reponses)
-                elif type == "all":
-                    titre = "Tous les contacts"
-                    return render_template('contacts.html', list_contact = reponses, titre = titre)
-                else:
-                    return "<p>Pas de résultat</p>"
-            else:
-                return "<p>Pas encore de contact</p>"
-        else:
-            return "<p>Pas de résultat</p>"
-    elif 'index' in request.args:
-        index = request.args.get('index')
-        if index:
-            conn = sqlite3.connect('gestion_contact.db')
-            cur = conn.cursor()
-            cur.execute(f"SELECT * FROM info wHERE ID = {index}")
+            cur.execute(f"SELECT * FROM info wHERE ID = {id}")
             reponses = cur.fetchall()
             cur.close()
             conn.close()
@@ -70,7 +49,41 @@ def contacts():
         else:
             return "<p>Pas de résultat</p>"
     else:
-        return redirect("/contacts?type=all")
+        conn = sqlite3.connect('gestion_contact.db')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM info")
+        reponses = cur.fetchall()
+        cur.close()
+        conn.close()
+        titre = "Tous les contacts"
+        return render_template('contacts.html', list_contact = reponses, titre = titre)
+    
+
+@app.route('/api/contacts')
+def api_contacts():
+    if 'id' in request.args:
+        id = request.args.get('id')
+        if id:
+            conn = sqlite3.connect('gestion_contact.db')
+            cur = conn.cursor()
+            cur.execute(f"SELECT * FROM info wHERE ID = {id}")
+            reponses = cur.fetchall()
+            cur.close()
+            conn.close()
+            if len(reponses)>0:
+                return jsonify(reponses)
+            else:
+                return "<p>Aucun résultat trouvé</p>"
+        else:
+            return "<p>Pas de résultat</p>"
+    else:
+        conn = sqlite3.connect('gestion_contact.db')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM info")
+        reponses = cur.fetchall()
+        cur.close()
+        conn.close()
+        return jsonify(reponses)
 
 @app.route('/contact/suppression')
 def suppression():

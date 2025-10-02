@@ -15,10 +15,10 @@
 <br>
 <div class="row" style="text-align: center;">
     <div class="col">
-<a href="/contacts" class="btn btn-info">Voir tous les contacts</a>
+<a href="{{ url_for('contacts') }}" class="btn btn-info">Voir tous les contacts</a>
 </div>
 <div class="col">
-<a href="/contacts?type=api" class="btn btn-info">Voir l'api des contacts</a>
+<a href="{{ url_for('api_contacts') }}" class="btn btn-info">Voir l'api des contacts</a>
 </div>
 </div>
 {% endblock %}
