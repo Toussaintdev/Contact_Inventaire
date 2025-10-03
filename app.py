@@ -26,6 +26,12 @@ def home():
                     contact TEXT,
                     inventaire TEXT)
                     ''')
+        cur.execute('''CREATE TABLE IF NOT EXISTS contact_supprime(
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    old_id INTEGER,
+                    contact TEXT,
+                    inventaire TEXT)
+                    ''')
         cur.close()
         conn.close()
         return render_template('index.html')
@@ -93,12 +99,6 @@ def suppression():
         if choix == 'yes':
             conn = sqlite3.connect('gestion_contact.db')
             cur = conn.cursor()
-            cur.execute('''CREATE TABLE IF NOT EXISTS contact_supprime(
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    old_id INTEGER,
-                    contact TEXT,
-                    inventaire TEXT)
-                    ''')
             cur.execute(f"SELECT * FROM info WHERE id = {id}")
             reponses = cur.fetchall()
             print(reponses)
