@@ -117,14 +117,42 @@ def suppression():
     else:
         return redirect(url_for('home'))
 
-@app.route('/contact/update')
+@app.route('/contact/update', methods = ['GET', 'POST'])
 def update():
-    id = request.args.get('id')
-    # conn = sqlite3.connect('gestion_contact.db')
-    # cur = conn.cursor()
-    # cur.close()
-    # conn.close()
-    return "<p>Le script de mise à jour n'est pas encore établi</p>"
+    if request.method == 'POST':
+        if 'id' in request.form and 'newcontact' in request.form and 'newinventaire' in request.form:
+            id = request.form.get('id')
+            newcontact = request.form.get('newcontact')
+            newinventaire = request.form.get('newinventaire')
+            conn = sqlite3.connect('gestion_contact.db')
+            cur = conn.cursor()
+            sql = "UPDATE info SET contact = ? WHERE id = ?"
+            val = (newcontact, id)
+            cur.execute(sql, val)
+            sql = "UPDATE info SET inventaire = ? WHERE id = ?"
+            val = (newinventaire, id)
+            cur.execute(sql, val)
+            conn.commit()
+            cur.close()
+            conn.close()
+            return redirect(url_for('contacts'))
+        else:
+            return redirect(url_for('contacts'))
+    else:
+        if 'id' in request.args:
+            id = request.args.get('id')
+            if id:
+                conn = sqlite3.connect('gestion_contact.db')
+                cur = conn.cursor()
+                cur.execute(f"SELECT * FROM info WHERE id = {id}")
+                reponses = cur.fetchall()
+                cur.close()
+                conn.close()
+                return render_template('update.html', id=reponses[0][0], contact=reponses[0][1],inventaire=reponses[0][2])
+            else:
+                return redirect(url_for('contacts'))
+        else:
+            return redirect(url_for('home'))
 
 @app.route('/test')
 def test():

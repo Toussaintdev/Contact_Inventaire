@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body{
+            height: 90vh;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="contain">
+        <h1>Modifier le contact</h1>
+        <form action="{{url_for('update')}}" method="post">
+            <div class="form-group">
+                <label for="id" class="form-label">ID</label>
+                <input type="number" name="id" id="id" value="{{id}}" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+                <label for="newcontact" class="form-label">New contact</label>
+                <input type="text" class="form-control" name="newcontact" id="newcontact" value="{{contact}}" required>
+            </div>
+            <div class="form-group">
+                <label for="newinventaire">New inventaire</label>
+                <textarea name="newinventaire" id="newinventaire" required>{{inventaire}}</textarea>
+            </div>
+            <br>
+            <div class="row" style="text-align: center;">
+                <div class="col">
+            <input type="submit" value="modifier" class="btn btn-outline-success">
+            </div>
+            <div class="col">
+            <input type="reset" value="annuler" class="btn btn-outline-primary">
+        </div>    
+        </div>
+        </form>
+        <br>
+        <div style="text-align: center;">
+        <a href="{{url_for('contacts')}}" class="btn btn-outline-primary">Ne plus modifier</a>
+        </div>
+    </div>
+</body>
+</html>
