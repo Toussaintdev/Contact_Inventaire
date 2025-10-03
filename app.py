@@ -87,12 +87,35 @@ def api_contacts():
 
 @app.route('/contact/suppression')
 def suppression():
-    id = request.args.get('id')
-    # conn = sqlite3.connect('gestion_contact.db')
-    # cur = conn.cursor()
-    # cur.close()
-    # conn.close()
-    return "<p>Le script de suppression n'est pas encore établi</p>"
+    if 'id' in request.args and 'choix' in request.args:
+        id = request.args.get('id')
+        choix = request.args.get('choix')
+        if choix == 'yes':
+            conn = sqlite3.connect('gestion_contact.db')
+            cur = conn.cursor()
+            cur.execute('''CREATE TABLE IF NOT EXISTS contact_supprime(
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    old_id INTEGER,
+                    contact TEXT,
+                    inventaire TEXT)
+                    ''')
+            cur.execute(f"SELECT * FROM info WHERE id = {id}")
+            reponses = cur.fetchall()
+            print(reponses)
+            insert = (reponses[0][0], reponses[0][1], reponses[0][2])
+            sql = "INSERT INTO contact_supprime (old_id, contact, inventaire) VALUES (?, ?, ?)"
+            cur.execute(sql, insert)
+            conn.commit()
+            cur.execute(f"DELETE FROM info WHERE id = {id}")
+            conn.commit()
+            cur.close()
+            conn.close()
+        return redirect(url_for("contacts"))
+    elif 'id' in request.args and 'choix' not in request.args:
+        id = request.args.get('id')
+        return render_template('delete.html', id=id)
+    else:
+        return redirect(url_for('home'))
 
 @app.route('/contact/update')
 def update():
@@ -102,6 +125,16 @@ def update():
     # cur.close()
     # conn.close()
     return "<p>Le script de mise à jour n'est pas encore établi</p>"
+
+@app.route('/test')
+def test():
+    conn = sqlite3.connect('gestion_contact.db')
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM contact_supprime")
+    reponses = cur.fetchall()
+    cur.close()
+    conn.close()
+    return jsonify(reponses)
 
 if __name__ == '__main__':
     app.run(debug=True)
